@@ -1,0 +1,26 @@
+name: "Burndown chart generator"
+description: "Generates a burndown chart for font projects based on color marks"
+inputs:
+  config-path:
+    description: "Where the config TOML file is within the repository"
+    required: true
+    default: "burndown.toml"
+runs:
+  using: "composite"
+  steps:
+  - name: "Set up Python"
+    uses: actions/setup-python@v2
+    with:
+      cache: "pip"
+  - name: "Install burndown-chart-generator"
+    run: "pip install git+https://github.com/daltonmaag/font-burndown-chart-generator#egg=burndown-chart-generator"
+    shell: bash
+  - name: "Run burndown-chart-generator"
+    run: "burndown-chart-generator --config ${{ inputs.config-path }}"
+    shell: bash
+  - name: "Export image"
+    uses: actions/upload-artifact@v3
+    with:
+      name: "Burndown chart"
+      path: "burndown-chart.png"
+      if-no-files-found: error
