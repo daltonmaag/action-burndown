@@ -31,9 +31,9 @@ runs:
       fi
   - name: "Caching burndown stats"
     uses: actions/cache@v3
-    if: $CACHE
+    if: ${{ env.CACHE }}
     with:
-      path: $CACHE_PATH
+      path: env.CACHE_PATH
   - name: "Run burndown-chart-generator"
     shell: bash
     run: "burndown-chart-generator --config ${{ inputs.config-path }}"
