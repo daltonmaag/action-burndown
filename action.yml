@@ -13,11 +13,28 @@ runs:
     with:
       cache: "pip"
   - name: "Install burndown-chart-generator"
+    shell: bash
     run: "pip install git+https://github.com/daltonmaag/font-burndown-chart-generator#egg=burndown-chart-generator"
+  - name: "Read caching config"
     shell: bash
+    run: |
+      echo "Detecting if caching is enabled"
+      if grep -q "^[^#]*cache *= *true" ${{ inputs.config-path }}; then
+        echo "Caching is enabled"
+        cache_path=$(grep -Eo '^[^#]*cache_path *= *".+"' burndown.example.toml | grep -Eo '".+"$' | tr -d \")
+        echo "CACHE=1" >> $GITHUB_ENV
+        echo "CACHE_PATH=$cache_path" >> $GITHUB_ENV
+      else
+        echo "Caching is disabled"
+      fi
+  - name: "Caching burndown stats"
+    uses: actions/cache@v3
+    if: $CACHE
+    with:
+      path: $CACHE_PATH
   - name: "Run burndown-chart-generator"
-    run: "burndown-chart-generator --config ${{ inputs.config-path }}"
     shell: bash
+    run: "burndown-chart-generator --config ${{ inputs.config-path }}"
   - name: "Export image"
     uses: actions/upload-artifact@v3
     with:
