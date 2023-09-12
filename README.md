@@ -16,6 +16,11 @@ jobs:
   burndown-chart:
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v3
+        with:
+          # Needed for generating burndown chart, as we traverse Git history
+          fetch-depth: 0
       - name: "Generate burndown chart"
         uses: daltonmaag/action-burndown@0.1
 ```
@@ -24,6 +29,7 @@ Specifying the path to the config file:
 
 ```yml
 steps:
+  # -- snip --
   - name: "Generate burndown chart"
     uses: daltonmaag/action-burndown@0.1
     with:
