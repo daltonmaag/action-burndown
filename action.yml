@@ -15,26 +15,14 @@ runs:
   - name: "Install burndown-chart-generator"
     shell: bash
     run: "pip install git+https://github.com/daltonmaag/font-burndown-chart-generator#egg=burndown-chart-generator"
-  - name: "Read caching config"
+  - name: "Source environment variables"
     shell: bash
-    run: |
-      echo "Detecting if caching is enabled"
-      if grep -q "^[^#]*cache *= *true" ${{ inputs.config-path }}; then
-        echo "Caching: enabled"
-        cache_path=$(grep -Eo '^[^#]*cache_path *= *".+"' ${{ inputs.config-path }} | grep -Eo '".+"$' | tr -d \")
-        # if cache path is empty, supply default
-        cache_path=${cache_path:=.burndown-chart-generator-cache.toml}
-        echo "Using cache path: $cache_path"
-        echo "CACHE=1" >> $GITHUB_ENV
-        echo "CACHE_PATH=$cache_path" >> $GITHUB_ENV
-      else
-        echo "Caching: disabled"
-      fi
+    run: "burndown-chart-generator export-env --config ${{ inputs.config-path }} >> $GITHUB_ENV"
   - name: "Caching burndown stats"
     uses: actions/cache@v3
-    if: env.CACHE
+    if: env.BCG_CACHE
     with:
-      path: ${{ env.CACHE_PATH }}
+      path: ${{ env.BCG_CACHE_PATH }}
       key: always-match-me
   - name: "Run burndown-chart-generator"
     shell: bash
