@@ -23,7 +23,7 @@ runs:
     if: env.BCG_CACHE
     with:
       path: ${{ env.BCG_CACHE_PATH }}
-      key: always-match-me
+      key: action-burndown
   - name: "Run burndown-chart-generator"
     shell: bash
     run: |
