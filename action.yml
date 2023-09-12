@@ -38,7 +38,10 @@ runs:
       key: always-match-me
   - name: "Run burndown-chart-generator"
     shell: bash
-    run: "burndown-chart-generator --config ${{ inputs.config-path }}"
+    run: |
+      echo "::group::burndown-chart-generator output"
+      burndown-chart-generator --config ${{ inputs.config-path }}
+      echo "::endgroup::"
   - name: "Export image"
     uses: actions/upload-artifact@v3
     with:
