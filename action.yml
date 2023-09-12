@@ -32,9 +32,9 @@ runs:
       fi
   - name: "Caching burndown stats"
     uses: actions/cache@v3
-    if: ${{ env.CACHE }}
+    if: env.CACHE
     with:
-      path: env.CACHE_PATH
+      path: ${{ env.CACHE_PATH }}
       key: always-match-me
   - name: "Run burndown-chart-generator"
     shell: bash
