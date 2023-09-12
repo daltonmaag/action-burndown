@@ -21,7 +21,9 @@ runs:
       echo "Detecting if caching is enabled"
       if grep -q "^[^#]*cache *= *true" ${{ inputs.config-path }}; then
         echo "Caching is enabled"
-        cache_path=$(grep -Eo '^[^#]*cache_path *= *".+"' burndown.example.toml | grep -Eo '".+"$' | tr -d \")
+        cache_path=$(grep -Eo '^[^#]*cache_path *= *".+"' ${{ inputs.config-path }} | grep -Eo '".+"$' | tr -d \")
+        # if cache path is empty, supply default
+        cache_path=${cache_path:=.burndown-chart-generator-cache.toml}
         echo "CACHE=1" >> $GITHUB_ENV
         echo "CACHE_PATH=$cache_path" >> $GITHUB_ENV
       else
