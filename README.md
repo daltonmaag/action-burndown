@@ -1,6 +1,6 @@
 # Font Project Burndown Chart Generator GitHub Action
 
-This repository is a GitHub action for [burndown-chart-generator](https://github.com/daltonmaag/font-burndown-chart-generator)
+This repository is a GitHub action for [burndown-chart-generator](https://github.com/googlefonts/font-burndown-chart-generator)
 
 ## Usage
 
@@ -37,3 +37,11 @@ steps:
     with:
       config-path: "./path/to/burndown.toml"
 ```
+
+## Versioning
+
+This project adheres to [semantic versioning](https://semver.org/)
+
+This GitHub action is versioned independent of the `burndown-chart-generator`.
+A major new version of it does require a new major version of this GitHub Action, however minor version increments do not necessitate any version change of the GitHub Action: the GitHub action is pinned to the latest semver-compatible version of the `burndown-chart-generator` major release.
+That is to say, if v0.1 of this GitHub Action is pinned to v0.1 of the `burndown-chart-generator`, then the Action will always use the latest v0.1.x version available on [PyPI](https://pypi.org/project/burndown-chart-generator/)
