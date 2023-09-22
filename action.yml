@@ -14,7 +14,7 @@ runs:
       cache: "pip"
   - name: "Install burndown-chart-generator"
     shell: bash
-    run: "pip install git+https://github.com/daltonmaag/font-burndown-chart-generator#egg=burndown-chart-generator"
+    run: "pip install burndown-chart-generator~=0.1.0"
   - name: "Source environment variables"
     shell: bash
     run: "burndown-chart-generator export-env --config ${{ inputs.config-path }} >> $GITHUB_ENV"
